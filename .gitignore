@@ -1,0 +1,51 @@
+﻿# Virtual Environment
+venv/
+env/
+.venv/
+.env/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.coverage
+.pytest_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Docker
+.dockerignore
+
+# MLflow
+mlruns/
+artifacts/
+
+# Model files (large files)
+*.pkl
+*.joblib
+*.h5
+
+# Data files
+*.csv
+*.json
+data/raw/
+data/processed/
+
+# Environment variables
+.env
+.env.local

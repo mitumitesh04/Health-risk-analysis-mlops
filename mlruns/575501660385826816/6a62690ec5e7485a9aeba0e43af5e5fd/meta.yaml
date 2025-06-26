@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/Lenovo/Documents/Mlops1/mlruns/575501660385826816/6a62690ec5e7485a9aeba0e43af5e5fd/artifacts
+end_time: 1750966312713
+entry_point_name: ''
+experiment_id: '575501660385826816'
+lifecycle_stage: active
+run_id: 6a62690ec5e7485a9aeba0e43af5e5fd
+run_name: defiant-stag-508
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1750966298645
+status: 3
+tags: []
+user_id: Lenovo

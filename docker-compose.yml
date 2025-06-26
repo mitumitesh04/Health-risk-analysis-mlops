@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # MLflow Tracking Server
+  mlflow:
+    build: .
+    container_name: health-mlflow
+    command: mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:///mlflow.db
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlflow_data:/app/mlflow_data
+    networks:
+      - mlops-network
+
+  # ML Training Service
+  training:
+    build: .
+    container_name: health-training
+    command: python enhanced_training.py
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    depends_on:
+      - mlflow
+    networks:
+      - mlops-network
+
+  # API Service
+  api:
+    build: .
+    container_name: health-api
+    command: python enhanced_api.py
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    depends_on:
+      - training
+    restart: unless-stopped
+    networks:
+      - mlops-network
+
+  # Dashboard Service
+  dashboard:
+    build: .
+    container_name: health-dashboard
+    command: streamlit run enhanced_dashboard.py --server.address=0.0.0.0 --server.port=8501
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    depends_on:
+      - api
+    restart: unless-stopped
+    networks:
+      - mlops-network
+
+networks:
+  mlops-network:
+    driver: bridge
